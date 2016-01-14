@@ -688,8 +688,8 @@ static char *hostapd_gen_http_req(const u8 *sa)
 
 	wpa_printf(MSG_DEBUG, "-------Request 请求的 STA 的硬件地址：" MACSTR, MAC2STR(sa));
 	mac = (char *)malloc(64);
-	sprintf(mac, MACSTR, MAC2STR(sa));	
-	
+	sprintf(mac, MACSTR, MAC2STR(sa));
+
 	//准备 HTTP 协议
 	memset(url, 0, 4096);
 	sprintf(url,"%s%s HTTP/1.1\r\n", "GET /ChameleonAC/Select?mac=", mac);
@@ -750,7 +750,7 @@ static char *hostapd_gen_http_req(const u8 *sa)
 	cJSON_Delete(root);
 	close(sockfd);
 	os_free(mac);
-	
+
 error:
 	return NULL;
 }
@@ -775,9 +775,9 @@ static struct hostapd_data * get_hapd_ssid(struct hostapd_data *hapd,
 		return NULL;
 
 	//判断帧类型, 若是 Probe 帧, 则返回初始 ssid
-	if ((WLAN_FC_GET_TYPE(fc) == WLAN_FC_TYPE_MGMT 
+	if ((WLAN_FC_GET_TYPE(fc) == WLAN_FC_TYPE_MGMT
 			&& WLAN_FC_GET_STYPE(fc) == WLAN_FC_STYPE_PROBE_REQ)
-		|| (WLAN_FC_GET_TYPE(fc) == WLAN_FC_TYPE_MGMT 
+		|| (WLAN_FC_GET_TYPE(fc) == WLAN_FC_TYPE_MGMT
 			&& WLAN_FC_GET_STYPE(fc) == WLAN_FC_STYPE_PROBE_RESP))
 		return iface->bss[0];
 
@@ -805,7 +805,7 @@ static struct hostapd_data * get_hapd_ssid(struct hostapd_data *hapd,
 		printf("--------成功获得密码，开始创建 AP！--------\n");
 
 		iface->num_bss++;
-		iface->bss = (struct hostapd_data **)realloc(iface->bss, 
+		iface->bss = (struct hostapd_data **)realloc(iface->bss,
 						iface->num_bss * sizeof(struct hostapd_data *));//分配内存
 		index = iface->num_bss - 1;
 
@@ -815,7 +815,7 @@ static struct hostapd_data * get_hapd_ssid(struct hostapd_data *hapd,
 
 		os_free(conf->bss->ssid.wpa_passphrase);
 		conf->bss->ssid.wpa_passphrase = os_strdup(psk); //配置密码
-		
+
 		iface->interfaces->set_security_params(conf->bss);
 		iface->bss[index] = hostapd_alloc_bss_data(iface, conf,
 					       					conf->bss); //数据
@@ -830,7 +830,7 @@ static struct hostapd_data * get_hapd_ssid(struct hostapd_data *hapd,
 		wpa_printf(MSG_DEBUG, "当前 BSS 总数量: %d", (int)iface->num_bss);
 		return iface->bss[index];
 	}
-	
+
 	return NULL;
 }
 
